@@ -1,4 +1,14 @@
-import firebase from "firebase";
+//https://stackoverflow.com/questions/70445014/module-not-found-error-package-path-is-not-exported-from-package
+
+// import firebase from "firebase";
+
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/storage';
+
+
+//https://stackoverflow.com/questions/41352150/typeerror-firebase-storage-is-not-a-function
+import 'firebase/storage';
 
 const firebaseConfig = {
   // apiKey: process.env.APP_KEY,
@@ -12,7 +22,8 @@ const firebaseConfig = {
   measurementId: "G-2ZGE63ES9F",
 };
 
-firebase.initializeApp(firebaseConfig);
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+// firebaseApp.storage()
 const storage = firebase.storage();
 
 export default storage;

@@ -26,40 +26,48 @@ import NewMovie from "./pages/newMovie/NewMovie";
 
 function App() {
   const { user } = useContext(AuthContext);
+  
   return (
     <Router>
+      <p>app.js router</p>
       <Routes>
-        <Route path="/login" element={user ? redirect("/") : <Login />}/>
-        {user && (
-          <>
-            <Topbar />
-            <div className="container">
-              <Sidebar />
-              <Route exact path="/" element={<Home/>}/>
-               
-              <Route path="/users" element={<UserList />}/>
-                
-              <Route path="/user/:userId" element={<User />}/>
-                
-              <Route path="/newUser" element={<NewUser />}/>
-               
-              <Route path="/movies" element={<MovieList />}/>
-         
-              <Route path="/movie/:movieId" element={<Movie />}/>
-              
-              <Route path="/newMovie" element={ <NewMovie />}/>
-         
-              <Route path="/lists" element={<ListList />}/>
-          
-              <Route path="/list/:listId" element={<List />}/>
-         
-              <Route path="/newlist" element={<NewList />}/>
-          
-            </div>
-          </>
-        )}
+        {/* <Route path="/login" element={user ? <Login/> : <Login />} /> */}
+
+
+        {/*real code*/}
+        <Route path="/login" element={user ? <Home /> : <Login />} />
       </Routes>
-    </Router>
+      {user && (
+        <>
+          <Topbar />
+          <div className="container">
+            <Sidebar />
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+
+              <Route path="/users" element={<UserList />} />
+
+              <Route path="/user/:userId" element={<User />} />
+
+              <Route path="/newUser" element={<NewUser />} />
+
+              <Route path="/movies" element={<MovieList />} />
+
+              <Route path="/movie/:movieId" element={<Movie />} />
+
+              <Route path="/newMovie" element={<NewMovie />} />
+
+              <Route path="/lists" element={<ListList />} />
+
+              <Route path="/list/:listId" element={<List />} />
+
+              <Route path="/newlist" element={<NewList />} />
+            </Routes>
+          </div>
+        </>
+      )}
+    
+    </Router >
   );
 }
 

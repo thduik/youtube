@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useContext, useState } from "react";
 import { login } from "../../authContext/apiCalls";
 import { AuthContext } from "../../authContext/AuthContext";
@@ -6,12 +7,27 @@ import "./login.scss";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { dispatch } = useContext(AuthContext);
+  const [hasError, setHasError] = useState(false);
+  //latestChange mar14 9:51
+  // const { dispatch, error } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+
 
   const handleLogin = (e) => {
     e.preventDefault();
-    login({ email, password }, dispatch);
+    login({ email, password }, authContext.dispatch);
   };
+
+  useEffect(()=>{
+    setHasError(authContext.error);
+  },[authContext.error])
+  const warningDiv = () => {
+    return (
+      <div>
+        <p>WE CANNOT FUCKING FIND THIS ACCOUNT INFORMATION YOU IDIOT!</p>
+      </div>
+    )
+  }
   return (
     <div className="login">
       <div className="top">
@@ -26,6 +42,7 @@ export default function Login() {
       <div className="container">
         <form>
           <h1>Sign In</h1>
+          {authContext.error ? warningDiv() : null}
           <input
             type="email"
             placeholder="Email or phone number"

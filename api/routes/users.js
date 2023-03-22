@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
 const verify = require("../verifyToken");
+
 //UPDATE
 
 router.put("/:id", verify, async (req, res) => {
@@ -58,18 +59,29 @@ router.get("/find/:id", async (req, res) => {
 
 //GET ALL
 router.get("/", verify, async (req, res) => {
+  console.log("userRoute get called")
   const query = req.query.new;
-  if (req.user.isAdmin) {
+  const hasUser = req.user ?? false;
+  const isAdmin = false;
+  if (hasUser) {
+    isAdmin = req.user.isAdmin;
+  } 
+
+  if (isAdmin) {
     try {
       const users = query
         ? await User.find().sort({ _id: -1 }).limit(5)
         : await User.find();
+
+      console.log("userRoute get success: ", users);
       res.status(200).json(users);
     } catch (err) {
-      res.status(500).json(err);
+      console.log("userRoute get error: ", err);
+      // res.status(500).json(err);
     }
   } else {
-    res.status(403).json("You are not allowed to see all users!");
+    console.log("userRoute get failed: req is not admin")
+    // res.status(403).json("You are not allowed to see all users!");
   }
 });
 

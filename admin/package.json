@@ -37,8 +37,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8800/api/",
+  
   "devDependencies": {
     "@babel/helper-compilation-targets": "^7.20.7"
-  }
+  },
+  "proxy": "http://localhost:8800/api/"
 }

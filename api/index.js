@@ -6,8 +6,14 @@ const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
 const movieRoute = require("./routes/movies");
 const listRoute = require("./routes/lists");
+const path = require("path");
 
+const addAdminSeed = require("./addAdminSeed");
 dotenv.config();
+
+
+const DIST_DIR = path.join(__dirname, "../client/dist");
+app.use(express.static(DIST_DIR));
 
 mongoose
   .connect(process.env.MONGO_URL, {
@@ -15,7 +21,12 @@ mongoose
     useUnifiedTopology: true,
     useCreateIndex: true,
   })
-  .then(() => console.log("DB Connection Successfull"))
+  .then(
+    () => {
+      console.log("DB Connection Successfull")
+      // addAdminSeed()
+    }
+    )
   .catch((err) => {
     console.error(err);
   });
@@ -30,3 +41,4 @@ app.use("/api/lists", listRoute);
 app.listen(8800, () => {
   console.log("Backend server is running!");
 });
+

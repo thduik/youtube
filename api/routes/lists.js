@@ -36,6 +36,7 @@ router.delete("/:id", verify, async (req, res) => {
 //GET
 
 router.get("/", verify, async (req, res) => {
+  console.log("listRouter GET / called")
   const typeQuery = req.query.type;
   const genreQuery = req.query.genre;
   let list = [];
@@ -55,9 +56,13 @@ router.get("/", verify, async (req, res) => {
     } else {
       list = await List.aggregate([{ $sample: { size: 10 } }]);
     }
+    console.log("listRouter GET / success. list is: ", list)
+    // res.send("23232");
     res.status(200).json(list);
+
   } catch (err) {
-    res.status(500).json(err);
+    console.log("listRouter GET / error: ", err)
+    // res.status(500).json(err);
   }
 });
 
