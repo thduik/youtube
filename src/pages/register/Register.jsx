@@ -8,32 +8,34 @@ import { AuthContext } from "../../authContext/AuthContext";
 import "./register.scss";
 
 export default function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+
   // const history = useHistory();
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
 
-  const emailRef = useRef();
   const passwordRef = useRef();
   const usernameRef = useRef();
+  const emailRef = useRef();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   
+
   const handleStart = () => {
-    console.log("handleStart pressed")
+    console.log("handleStart pressed", emailRef.current.value)
     setEmail(emailRef.current.value);
   };
+
   const handleFinish = async (e) => {
     e.preventDefault();
-    console.log("handleFinish pressed")
 
-    // setPassword(passwordRef.current.value);
-    // setUsername(usernameRef.current.value);
+    setPassword(passwordRef.current.value);
+    setUsername(usernameRef.current.value);
+    
+    console.log("handleFinishRegister pressed. password is: ", password, "username is:", username);
 
-    const password = passwordRef.current.value;
-    const username = usernameRef.current.value;
-    const email = emailRef.current.value
-    const userData = {email:email, password:password, username:username}
+    const userData = {'email':email, 'username':username, 'password':password};
     register(userData, authContext.dispatch,()=>navigate("/login"))
   };
   const handleLoginButton = (e) => {
@@ -43,6 +45,7 @@ export default function Register() {
     
     navigate("/login")
   }
+
   return (
     <div className="register">
       <p>sadasdasds</p>
@@ -65,7 +68,7 @@ export default function Register() {
         </p>
         {!email ? (
           <div className="input">
-            <input type="email" placeholder="email address" ref={emailRef} />
+            <input type="email" placeholder="email address" ref={emailRef}/>
             <button className="registerButton" onClick={handleStart}>
               Get Started
             </button>

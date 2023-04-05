@@ -1,13 +1,18 @@
 import axios from "axios";
 import { loginFailure, loginStart, loginSuccess } from "./AuthActions";
+import loadEnvVar from "../utils/envLoader";
+
+const baseUrl = loadEnvVar("BASE_API_URL");
+
 
 export const login = async (user, dispatch) => {
+  console.log("baseURL is: ", baseUrl)
   dispatch(loginStart());
-  const baseUrl = process.env.BASE_API_URL;
   const loginUrl = baseUrl + "auth/login"
-  console.log("loginCalled url is: ", registerUrl, " userDataIs: ", user)
+  console.log("loginCalled url is: ", loginUrl, " userDataIs: ", user)
+
   try {
-    const res = await axios.post("loginUrl", user);
+    const res = await axios.post(loginUrl, user);
     console.log("login called axiosSuccess res is:", res)
     dispatch(loginSuccess(res.data));
   } catch (err) {
@@ -19,8 +24,11 @@ export const login = async (user, dispatch) => {
 
 
 export const register = async (userData, dispatch, navToLogin) => {
-  const baseUrl = process.env.BASE_API_URL;
+
+  
   const registerUrl = baseUrl + "auth/login"
+  console.log("registerCalled url is: ", registerUrl, " userDataIs: ", userData)
+  
   try {
     console.log("handleFinish uname is: ", username, " pass is ", password, " url is: ", registerUrl)
     const res = await axios.post(registerUrl, userData);
@@ -28,6 +36,6 @@ export const register = async (userData, dispatch, navToLogin) => {
     navToLogin()
 
   } catch (err) {
-
+    console.log("err register: ", err)
   }
 }
