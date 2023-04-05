@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useRef } from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 // import { useHistory } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { register } from "../../authContext/apiCalls";
+import { AuthContext } from "../../authContext/AuthContext";
 import "./register.scss";
 
 export default function Register() {
@@ -11,11 +13,12 @@ export default function Register() {
   const [username, setUsername] = useState("");
   // const history = useHistory();
   const navigate = useNavigate();
+  const authContext = useContext(AuthContext);
 
   const emailRef = useRef();
   const passwordRef = useRef();
   const usernameRef = useRef();
-
+  
   const handleStart = () => {
     console.log("handleStart pressed")
     setEmail(emailRef.current.value);
@@ -29,18 +32,15 @@ export default function Register() {
 
     const password = passwordRef.current.value;
     const username = usernameRef.current.value;
-    try {
-      console.log("handleFinish uname is: ", username, " pass is ", password)
-      await axios.post("api/auth/register", { email,username, password });
-      // history.push("/login");
-      navigate("/login")
-
-    } catch (err) {}
+    const email = emailRef.current.value
+    const userData = {email:email, password:password, username:username}
+    register(userData, authContext.dispatch,()=>navigate("/login"))
   };
   const handleLoginButton = (e) => {
     e.preventDefault()
     console.log("handleLoginButton pressed")
     // history.push("/login");
+    
     navigate("/login")
   }
   return (
