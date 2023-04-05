@@ -8,7 +8,7 @@ const baseUrl = loadEnvVar("BASE_API_URL");
 export const login = async (user, dispatch) => {
   console.log("baseURL is: ", baseUrl)
   dispatch(loginStart());
-  const loginUrl = baseUrl + "auth/login"
+  const loginUrl = baseUrl + "/auth/login"
   console.log("loginCalled url is: ", loginUrl, " userDataIs: ", user)
 
   try {
@@ -26,11 +26,11 @@ export const login = async (user, dispatch) => {
 export const register = async (userData, dispatch, navToLogin) => {
 
   
-  const registerUrl = baseUrl + "auth/login"
+  const registerUrl = baseUrl + "/auth/register"
   console.log("registerCalled url is: ", registerUrl, " userDataIs: ", userData)
   
   try {
-    console.log("handleFinish uname is: ", username, " pass is ", password, " url is: ", registerUrl)
+    console.log("handleFinish uname is: ", userData.username, " pass is ", userData.password, " url is: ", registerUrl)
     const res = await axios.post(registerUrl, userData);
     // history.push("/login");
     navToLogin()

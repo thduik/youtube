@@ -13,30 +13,27 @@ export default function Register() {
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
 
-  const passwordRef = useRef();
-  const usernameRef = useRef();
-  const emailRef = useRef();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  
+  const [emailDone, setEmailDone] = useState(false);
+
 
   const handleStart = () => {
-    console.log("handleStart pressed", emailRef.current.value)
-    setEmail(emailRef.current.value);
+    // console.log("handleStart pressed", emailRef.current.value)
+    // setEmail(emailRef.current.value);
+    setEmailDone(true)
+
   };
 
   const handleFinish = async (e) => {
     e.preventDefault();
 
-    setPassword(passwordRef.current.value);
-    setUsername(usernameRef.current.value);
-    
     console.log("handleFinishRegister pressed. password is: ", password, "username is:", username);
 
     const userData = {'email':email, 'username':username, 'password':password};
     register(userData, authContext.dispatch,()=>navigate("/login"))
+    setEmailDone(false);
   };
   const handleLoginButton = (e) => {
     e.preventDefault()
@@ -45,6 +42,10 @@ export default function Register() {
     
     navigate("/login")
   }
+
+  // const handleEmailChange = (e) => {
+  //   setEmail(e.target.value)
+  // }
 
   return (
     <div className="register">
@@ -66,9 +67,9 @@ export default function Register() {
         <p>
           Ready to watch? Enter your email to create or restart your membership.
         </p>
-        {!email ? (
+        {!emailDone ? (
           <div className="input">
-            <input type="email" placeholder="email address" ref={emailRef}/>
+            <input type="email" placeholder="email address" onChange={(e)=>{setEmail(e.target.value)}}/>
             <button className="registerButton" onClick={handleStart}>
               Get Started
             </button>
@@ -76,8 +77,8 @@ export default function Register() {
           </div>
         ) : (
           <form className="input">
-            <input type="username" placeholder="username" ref={usernameRef} />
-            <input type="password" placeholder="password" ref={passwordRef} />
+            <input type="username" placeholder="username" onChange={(e)=>{setUsername(e.target.value)}} />
+            <input type="password" placeholder="password" onChange={(e)=>{setPassword(e.target.value)}}/>
             <button className="registerButton" onClick={handleFinish}>
               Start
             </button>

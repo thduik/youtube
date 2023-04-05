@@ -1,5 +1,8 @@
 const path = require("path");
 const HWP = require("html-webpack-plugin");
+const webpack = require('webpack')
+
+
 module.exports = {
   entry: path.join(__dirname, "/src/index.jsx"),
   output: {
@@ -39,7 +42,12 @@ module.exports = {
     open: true,
     historyApiFallback: true,
   },
-  plugins: [new HWP({ template: path.join(__dirname, "/public/index.html") })],
+  plugins: [
+    new HWP({ hash: true, filename: 'index.html' }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    })
+  ],
   resolve: {
     extensions: ['', '.js', '.jsx'],
   }
