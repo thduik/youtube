@@ -23,27 +23,17 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|gif)$/,
         loader: "file-loader",
-      },
-      {
-        test: /\.s[ac]ss$/i,
-        use: [
-          // Creates `style` nodes from JS strings
-          "style-loader",
-          // Translates CSS into CommonJS
-          "css-loader",
-          // Compiles Sass to CSS
-          "sass-loader",
-        ],
       }
     ],
   },
+  devtool: 'eval-source-map',
   devServer: {
     port: 3000,
     open: true,
     historyApiFallback: true,
   },
   plugins: [
-    new HWP({ hash: true, filename: 'index.html' }),
+    new HWP({ template: path.join(__dirname, "/public/index.html") }),
     new webpack.DefinePlugin({
       'process.env': {
         CUSTOM_PATH: JSON.stringify(process.env.CUSTOM_PATH)
