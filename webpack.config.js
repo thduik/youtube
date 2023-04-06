@@ -44,8 +44,10 @@ module.exports = {
   },
   plugins: [
     new HWP({ hash: true, filename: 'index.html' }),
-    new webpack.ProvidePlugin({
-      process: 'process/browser',
+    new webpack.DefinePlugin({
+      'process.env': {
+        CUSTOM_PATH: JSON.stringify(process.env.CUSTOM_PATH)
+      }
     })
   ],
   resolve: {
